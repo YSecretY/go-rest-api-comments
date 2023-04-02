@@ -9,4 +9,7 @@ func Run() error {
 
 func main() {
 	fmt.Println("Go Rest API Comments")
+	if err := Run(); err != nil {
+		fmt.Println(err)
+	}
 }
