@@ -1,0 +1,1 @@
+drop table schema_migrations;
