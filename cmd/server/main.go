@@ -1,10 +1,10 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"github.com/YSecretY/go-rest-api-comments/internal/comment"
 	"github.com/YSecretY/go-rest-api-comments/internal/db"
+	transportHttp "github.com/YSecretY/go-rest-api-comments/internal/transport/http"
 )
 
 func Run() error {
@@ -22,18 +22,10 @@ func Run() error {
 
 	cmtService := comment.NewService(db)
 
-	cmtService.PostComment(
-		context.Background(),
-		comment.Comment{
-			ID:     "9a31bf83-28bc-4b8d-bf70-7d347a24ff2e",
-			Slug:   "manual-test",
-			Author: "Elliot",
-			Body:   "Hello, World!",
-		})
-	fmt.Println(cmtService.GetComment(
-		context.Background(),
-		"9a31bf83-28bc-4b8d-bf70-7d347a24ff2e",
-	))
+	httpHandler := transportHttp.NewHandler(cmtService)
+	if err := httpHandler.Serve(); err != nil {
+		return err
+	}
 	return nil
 }
 
